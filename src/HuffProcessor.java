@@ -9,6 +9,7 @@
  * 
  * @author Owen Astrachan
  */
+//hi meghan! lets kick some huff butt!!
 
 public class HuffProcessor {
 
