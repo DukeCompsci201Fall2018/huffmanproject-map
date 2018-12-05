@@ -11,6 +11,7 @@
  */
 
 //Meghan Peel
+// Alina Perez
 
 public class HuffProcessor {
 
@@ -66,10 +67,38 @@ public class HuffProcessor {
 			throw new HuffException("illegal header starts with " + bits);
 		}
 		
+		HuffNode root = readTreeHeader(in);
+		readCompressedBits(root, in, out);
+		out.close();
+		
+		
+		//Delete before final! not necessary, just prints out bits
 		while (true){
 			int val = in.readBits(BITS_PER_WORD);
 			if (val == -1) break;
 			out.writeBits(BITS_PER_WORD, val);
 		}
+	}
+	
+	public HuffNode readTreeHeader(BitInputStream read){
+		read.readBits(BITS_PER_WORD + 1);
+		
+		int bit = 0;
+		
+		if(bit==-1) {
+			throw new HuffException("illegal header starts with " + bit);
+		}
+		if(bit == 0) {
+			HuffNode left = readTreeHeader(read);
+			HuffNode right = readTreeHeader(read);
+			return new HuffNode(0,0,left, right);
+		}
+		//its a child--> its a letter
+		else {
+			int value = BITS_PER_WORD + 1;
+			return new HuffNode(value, 0, null, null);
+		}
+		
+		
 	}
 }
