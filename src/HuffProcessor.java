@@ -47,7 +47,7 @@ public class HuffProcessor {
 	 *            Buffered bit stream writing to the output file.
 	 */
 	public void compress(BitInputStream in, BitOutputStream out){
-
+		
 		int[] counts = readForCounts(in);
 		HuffNode root = makeTreeFromCounts(counts);
 		String[] codings = makeCodingsFromTree(root);
@@ -62,7 +62,7 @@ public class HuffProcessor {
 	 public int[] readForCounts(BitInputStream in) {
 		 int[] ret =  new int[ALPH_SIZE + 1];
 		 while(true) {
-		 	int cycle= in.readBits(BITS_PER_WORD);
+		 	int cycle = in.readBits(BITS_PER_WORD);
 		 	if(cycle == -1) {
 		 		break;
 		 	}
@@ -75,7 +75,7 @@ public class HuffProcessor {
 	 
 	 private HuffNode makeTreeFromCounts(int[] counts) {
 		 PriorityQueue<HuffNode> pq = new PriorityQueue<>();
-		 for(int k = 0; k<counts.length; k++) {
+		 for(int k = 0; k < counts.length; k++) {
 			 if(counts[k]!=0) {
 			 pq.add(new HuffNode(k, counts[k],null, null));
 		 }
@@ -101,6 +101,9 @@ public class HuffProcessor {
 		 String path = s;
 		 if(root.myLeft == null && root.myRight==null) {
 			 encodings[root.myValue] = path;
+			 if (myDebugLevel >= DEBUG_HIGH) {
+				 System.out.printf("encoding for %d is %s\n", root.myValue,path);
+			 }
 			 return;
 		 }
 		 else {
