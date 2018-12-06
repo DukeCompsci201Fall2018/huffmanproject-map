@@ -66,7 +66,6 @@ public class HuffProcessor {
 		 	if(cycle == -1) {
 		 		break;
 		 	}
-		 	System.out.println(cycle);
 		 	ret[cycle] = ret[cycle] + 1;
 		 	
 		 }
@@ -74,7 +73,7 @@ public class HuffProcessor {
 		 return ret;
 	 }
 	 
-	 public HuffNode makeTreeFromCounts(int[] counts) {
+	 private HuffNode makeTreeFromCounts(int[] counts) {
 		 PriorityQueue<HuffNode> pq = new PriorityQueue<>();
 		 for(int k = 0; k<counts.length; k++) {
 			 if(counts[k]!=0) {
@@ -84,26 +83,23 @@ public class HuffProcessor {
 		 while(pq.size()>1) {
 			 HuffNode left = pq.remove();
 			 HuffNode right = pq.remove();
-			//this might be wrong, unsure about 0....
 			 HuffNode t = new HuffNode(0 ,left.myWeight+right.myWeight, left, right);
 			 pq.add(t);
-			 System.out.println("size is " + pq.size());
 		 }
 		 HuffNode root = pq.remove();
 
 		 return root;
 	 }
 	 
-	 public String[] makeCodingsFromTree(HuffNode root) {
+	 private String[] makeCodingsFromTree(HuffNode root) {
 		 
 		String[] encodings = new String[ALPH_SIZE + 1];
 		codingHelper(root,"",encodings);
-		System.out.println(encodings[ALPH_SIZE]);
 		return encodings;
 	 }
 	 private void codingHelper(HuffNode root, String s, String[] encodings) {
 		 String path = s;
-		 if(root.myLeft == null&& root.myRight==null) {
+		 if(root.myLeft == null && root.myRight==null) {
 			 encodings[root.myValue] = path;
 			 return;
 		 }
@@ -136,7 +132,6 @@ public class HuffProcessor {
 			
 		 }
 		 String code = codings[ALPH_SIZE];
-		 System.out.println(code);
 		 out.writeBits(code.length(), Integer.parseInt(code,2));
 	 }
 	/**
@@ -196,7 +191,6 @@ public class HuffProcessor {
 			HuffNode right = readTreeHeader(read);
 			return new HuffNode(0,0,left, right);
 		}
-		//its a child--> its a letter
 		else {
 			int value = read.readBits(BITS_PER_WORD + 1);
 			return new HuffNode(value, 0, null, null);
