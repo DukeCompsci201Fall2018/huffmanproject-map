@@ -59,7 +59,7 @@ public class HuffProcessor {
 		writeCompressedBits(codings, in, out);
 		out.close();
 	}
-	 public int[] readForCounts(BitInputStream in) {
+	 private int[] readForCounts(BitInputStream in) {
 		 int[] ret =  new int[ALPH_SIZE + 1];
 		 while(true) {
 		 	int cycle = in.readBits(BITS_PER_WORD);
@@ -183,7 +183,7 @@ public class HuffProcessor {
 		
 	}
 
-	public HuffNode readTreeHeader(BitInputStream read){
+	private HuffNode readTreeHeader(BitInputStream read){
 		int bit = read.readBits(1);
 		
 		if(bit==-1) {
